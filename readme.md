@@ -4,6 +4,51 @@ JupyterHub with the
 [Ganymede Kernel](https://github.com/allen-ball/ganymede)
 .
 
+## Recommended Docker Images
+
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">Area</th>
+    <th class="tg-0lax">Docker Image</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0lax">Cloud IDE <a href="https://github.com/coder/code-server" target="_blank" rel="noopener noreferrer">code-server</a> (based on VSCode)</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-vscode-server" target="_blank" rel="noopener noreferrer">dclong/vscode-server</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Traditional ML</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-jupyterhub-ds" target="_blank" rel="noopener noreferrer">dclong/jupyterhub-ds</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Deep Learning</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-jupyterhub-pytorch" target="_blank" rel="noopener noreferrer">dclong/jupyterhub-pytorch</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Build portable Python using <a href="https://github.com/indygreg/python-build-standalone" target="_blank" rel="noopener noreferrer">python-build-standalone</a></td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-python-portable" target="_blank" rel="noopener noreferrer">dclong/python-portable</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Build portable Anaconda Python environment</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-conda-build" target="_blank" rel="noopener noreferrer">dclong/conda-build</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Math / Calculus</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-jupyterhub-sagemath" target="_blank" rel="noopener noreferrer">dclong/jupyterhub-sagemath</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Editing <a href="https://github.com/legendu-net/blog" target="_blank" rel="noopener noreferrer">legendu.net/blog</a> using GitPod</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-gitpod/tree/blog" target="_blank" rel="noopener noreferrer">dclong/gitpod:blog</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">Editing other GitHub repos using GitPod</td>
+    <td class="tg-0lax"><a href="https://github.com/legendu-net/docker-gitpod" target="_blank" rel="noopener noreferrer">dclong/gitpod</a></td>
+  </tr>
+</tbody>
+</table>
+
 ## Prerequisite
 You need to [install Docker](http://www.legendu.net/en/blog/docker-installation/) before you use this Docker image.
 
@@ -19,7 +64,7 @@ and mounts the current working directory and `/home` on the host machine
 to `/workdir` and `/home_host` in the container respectively.
 ```
 docker run -d --init \
-    --hostname jupyterhub-kotlin \
+    --hostname jupyterhub-ganymede \
     --log-opt max-size=50m \
     -p 8000:8000 \
     -e DOCKER_USER=$(id -un) \
@@ -29,12 +74,12 @@ docker run -d --init \
     -e DOCKER_ADMIN_USER=$(id -un) \
     -v "$(pwd)":/workdir \
     -v "$(dirname $HOME)":/home_host \
-    dclong/jupyterhub-kotlin /scripts/sys/init.sh
+    dclong/jupyterhub-ganymede /scripts/sys/init.sh
 ```
-Use the image with the `next` tag (which is the testing/next version of dclong/jupyterhub-kotlin).
+Use the image with the `next` tag (which is the testing/next version of dclong/jupyterhub-ganymede).
 ```
 docker run -d --init \
-    --hostname jupyterhub-kotlin \
+    --hostname jupyterhub-ganymede \
     --log-opt max-size=50m \
     -p 8000:8000 \
     -e DOCKER_USER=$(id -un) \
@@ -44,13 +89,13 @@ docker run -d --init \
     -e DOCKER_ADMIN_USER=$(id -un) \
     -v "$(pwd)":/workdir \
     -v "$(dirname $HOME)":/home_host \
-    dclong/jupyterhub-kotlin:next /scripts/sys/init.sh
+    dclong/jupyterhub-ganymede:next /scripts/sys/init.sh
 ```
 The following command (only works on Linux) does the same as the above one 
 except that it limits the use of CPU and memory.
 ```
 docker run -d --init \
-    --hostname jupyterhub-kotlin \
+    --hostname jupyterhub-ganymede \
     --log-opt max-size=50m \
     --memory=$(($(head -n 1 /proc/meminfo | awk '{print $2}') * 4 / 5))k \
     --cpus=$(($(nproc) - 1)) \
@@ -62,12 +107,12 @@ docker run -d --init \
     -e DOCKER_ADMIN_USER=$(id -un) \
     -v "$(pwd)":/workdir \
     -v "$(dirname $HOME)":/home_host \
-    dclong/jupyterhub-kotlin /scripts/sys/init.sh
+    dclong/jupyterhub-ganymede /scripts/sys/init.sh
 ```
-Use the image with the `next` tag (which is the testing/next version of dclong/jupyterhub-kotlin).
+Use the image with the `next` tag (which is the testing/next version of dclong/jupyterhub-ganymede).
 ```
 docker run -d --init \
-    --hostname jupyterhub-kotlin \
+    --hostname jupyterhub-ganymede \
     --log-opt max-size=50m \
     --memory=$(($(head -n 1 /proc/meminfo | awk '{print $2}') * 4 / 5))k \
     --cpus=$(($(nproc) - 1)) \
@@ -79,7 +124,7 @@ docker run -d --init \
     -e DOCKER_ADMIN_USER=$(id -un) \
     -v "$(pwd)":/workdir \
     -v "$(dirname $HOME)":/home_host \
-    dclong/jupyterhub-kotlin:next /scripts/sys/init.sh
+    dclong/jupyterhub-ganymede:next /scripts/sys/init.sh
 ```
 ## [Detailed Information](http://www.legendu.net/en/blog/my-docker-images/#list-of-images-and-detailed-information) 
 
